@@ -6,17 +6,17 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
-    path: '/register',
-    name: 'Register',
+    path: '/reg',
+    name: 'reg',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
   },
   {
     path: '/forget',
-    name: 'Forget',
+    name: 'forget',
     component: () => import(/* webpackChunkName: "forget" */ '../views/Forget.vue')
   }
 ]

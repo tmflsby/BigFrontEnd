@@ -50,7 +50,7 @@
           />
         </div>
         <button type="button" class="layui-btn" @click="checkForm">点击登录</button>
-        <a class="forgot-password" href="https://layui.github.io/">忘记密码</a>
+        <a class="forgot-password" @click="forgetPassword">忘记密码</a>
       </form>
     </div>
   </div>
@@ -58,6 +58,7 @@
 
 <script>
 import axios from 'axios'
+import { getCode, forget } from '@/api/login'
 import { ValidationProvider, extend } from 'vee-validate'
 // import { required, email } from 'vee-validate/dist/rules'
 import * as rules from 'vee-validate/dist/rules'
@@ -88,10 +89,10 @@ export default {
   },
   methods: {
     async getCaptcha () {
-      const getCaptchaRes = await axios.get('http://localhost:3000/getCaptcha')
+      const getCaptchaRes = await getCode()
       console.log(getCaptchaRes)
-      if (getCaptchaRes.status === 200 && getCaptchaRes.data.code === 200) {
-        this.captchaSVG = getCaptchaRes.data.data
+      if (getCaptchaRes.code === 200) {
+        this.captchaSVG = getCaptchaRes.data
       }
     },
     checkForm () {
@@ -105,6 +106,16 @@ export default {
       if (!this.captcha) {
         this.errorMessage.push('验证码不能为空')
       }
+    },
+    forgetPassword () {
+      forget({
+        username: this.name,
+        code: this.captcha
+      }).then(res => {
+        if (res.code === 200) {
+          alert('邮件发送成功')
+        }
+      })
     }
   }
 }
